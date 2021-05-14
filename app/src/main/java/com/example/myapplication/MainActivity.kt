@@ -10,13 +10,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import java.net.PasswordAuthentication
+import com.example.myapplication.utils.CodeCheckUtility.Companion.NON_VALID_MSG
+import com.example.myapplication.utils.CodeCheckUtility.Companion.VALID_MSG
+import com.example.myapplication.utils.CodeCheckUtility.Companion.isPasswordCorrect
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
-
-    val PASSWORD = "546789"
-    val NONVALID_MSG = "Incorrect code!"
-    val VALID_MSG = "Correct code!"
 
     private lateinit var sensorManager: SensorManager
     private var sensor: Sensor? = null
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         checkCodeButton.setOnClickListener() {
             Toast.makeText(
                 this,
-                if (isPasswordCorrect(passwordTextView.text)) VALID_MSG else NONVALID_MSG,
+                if (isPasswordCorrect(passwordTextView.text)) VALID_MSG else NON_VALID_MSG,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -44,10 +42,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         //    Thread.sleep(1000)
        // }
 
-    }
-
-    private fun isPasswordCorrect(text: CharSequence): Boolean {
-        return text.toString() == (PASSWORD)
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
