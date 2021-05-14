@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PIN Breaker</string>
+    <string name="check_code">Check code</string>
+    <string name="generate_sensor_logs">Generate sensor logs</string>
+</resources>
