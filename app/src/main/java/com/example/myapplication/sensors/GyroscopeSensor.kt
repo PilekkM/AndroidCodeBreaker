@@ -6,11 +6,10 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Handler
 import android.os.HandlerThread
-import com.example.myapplication.sensors.listeners.GravitySensorListener
+import com.example.myapplication.sensors.listeners.GyroscopeSensorListener
 
-class GravitySensor() : Runnable {
+class GyroscopeSensor() : Runnable {
 
-    //TODO think of abstract class/interface for Sensors
     private var mContext: Context? = null
     private var mSensorManager: SensorManager? = null
     private var mSensor: Sensor? = null
@@ -23,13 +22,13 @@ class GravitySensor() : Runnable {
 
     override fun run() {
         mSensorManager = mContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        mSensor = mSensorManager?.getDefaultSensor(Sensor.TYPE_GRAVITY)
-        mHandlerThread = HandlerThread("AccelerometerLogListener")
+        mSensor = mSensorManager?.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        mHandlerThread = HandlerThread("GyroscopeLogListener")
         mHandlerThread!!.start()
 
         val handler = Handler(mHandlerThread!!.looper)
 
-        mListener = GravitySensorListener()
+        mListener = GyroscopeSensorListener()
 
         mSensorManager!!.registerListener(
             mListener,
@@ -39,7 +38,7 @@ class GravitySensor() : Runnable {
         )
     }
 
-    fun cleanThread() {
+     fun cleanThread() {
         if (mSensorManager != null) {
             mSensorManager!!.unregisterListener(mListener)
         }
@@ -48,5 +47,4 @@ class GravitySensor() : Runnable {
             mHandlerThread!!.quitSafely()
         }
     }
-
 }

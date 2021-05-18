@@ -30,13 +30,36 @@
         app:layout_constraintVertical_bias="0.108" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/gravity_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/generate_sensor_logs"
+        android:text="@string/generate_gravity_sensor_logs"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Switch
+        android:id="@+id/gyro_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_gyroscope_logs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gravity_switch"
+        app:layout_constraintVertical_bias="0.109" />
+
+    <Switch
+        android:id="@+id/all_sensor_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_logs_from_all_sensors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gyro_switch"
+        app:layout_constraintVertical_bias="0.222" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
