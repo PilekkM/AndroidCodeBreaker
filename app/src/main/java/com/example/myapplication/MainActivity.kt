@@ -12,6 +12,8 @@ import com.example.myapplication.sensors.GravitySensor
 import com.example.myapplication.utils.CodeCheckUtility.Companion.NON_VALID_MSG
 import com.example.myapplication.utils.CodeCheckUtility.Companion.VALID_MSG
 import com.example.myapplication.utils.CodeCheckUtility.Companion.isPasswordCorrect
+import com.example.myapplication.utils.PermissionUtils.Companion.checkStoragePermissions
+import com.example.myapplication.utils.PermissionUtils.Companion.isStoragePermissionGranted
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkStoragePermissions(this)
 
         val checkCodeButton = findViewById<Button>(R.id.button)
         val sensorSwitch = findViewById<Switch>(R.id.switch1)
@@ -34,9 +37,14 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
 
-        sensorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+        sensorSwitch.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
-                gravitySensorThread!!.run()
+                if(isStoragePermissionGranted(this)) {
+                        gravitySensorThread!!.run()
+                    }else{
+                        Toast.makeText(this, "Please give this application permission for writing to storage", Toast.LENGTH_SHORT).show()
+                        sensorSwitch.isChecked = false
+                    }
             }else{
                 gravitySensorThread!!.cleanThread()
             }
