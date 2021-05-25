@@ -1,11 +1,12 @@
 package com.example.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.sensors.AbstractSensor
 import com.example.myapplication.sensors.GravitySensor
 import com.example.myapplication.sensors.GyroscopeSensor
 import com.example.myapplication.utils.CodeCheckUtility.Companion.NON_VALID_MSG
@@ -40,51 +41,41 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
 
-        //TODO extract common logic from setOnCheckedListener
         gravitySensorSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                if (isStoragePermissionGranted(this)) {
-                    gravitySensorThread!!.run()
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Please give this application permission for writing to storage",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    gravitySensorSwitch.isChecked = false
-                }
-            } else {
-                gravitySensorThread!!.cleanThread()
-            }
+            runSensorThread(gravitySensorSwitch, gravitySensorThread!!, isChecked)
         }
 
         gyroscopeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                if (isStoragePermissionGranted(this)) {
-                    gyroscopeThread!!.run()
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Please give this application permission for writing to storage",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    gravitySensorSwitch.isChecked = false
-                }
-            } else {
-                gyroscopeThread!!.cleanThread()
-            }
+            runSensorThread(gyroscopeSwitch, gyroscopeThread!!, isChecked)
         }
 
         allSensorSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked){
+            if (isChecked) {
                 gyroscopeSwitch.isChecked = true
                 gravitySensorSwitch.isChecked = true
-            }else{
+            } else {
                 gyroscopeSwitch.isChecked = false
                 gravitySensorSwitch.isChecked = false
             }
 
         }
 
+    }
+
+    private fun runSensorThread(switch: Switch, sensorThread: AbstractSensor, isChecked: Boolean) {
+        if (isChecked) {
+            if (isStoragePermissionGranted(this)) {
+                sensorThread.run()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Please give this application permission for writing to storage",
+                    Toast.LENGTH_SHORT
+                ).show()
+                switch.isChecked = false
+            }
+        } else {
+            sensorThread.cleanThread()
+        }
     }
 }

@@ -3,50 +3,20 @@ package com.example.myapplication.sensors
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEventListener
-import android.hardware.SensorManager
-import android.os.Handler
-import android.os.HandlerThread
 import com.example.myapplication.sensors.listeners.GravitySensorListener
 
-class GravitySensor() : Runnable {
+class GravitySensor(mContext: Context) : AbstractSensor(mContext) {
 
-    //TODO think of abstract class/interface for Sensors
-    private var mContext: Context? = null
-    private var mSensorManager: SensorManager? = null
-    private var mSensor: Sensor? = null
-    private var mListener: SensorEventListener? = null
-    private var mHandlerThread: HandlerThread? = null
-
-    constructor(context: Context?) : this() {
-        mContext = context
+    override fun getListener(): SensorEventListener? {
+        return GravitySensorListener()
     }
 
-    override fun run() {
-        mSensorManager = mContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        mSensor = mSensorManager?.getDefaultSensor(Sensor.TYPE_GRAVITY)
-        mHandlerThread = HandlerThread("AccelerometerLogListener")
-        mHandlerThread!!.start()
-
-        val handler = Handler(mHandlerThread!!.looper)
-
-        mListener = GravitySensorListener()
-
-        mSensorManager!!.registerListener(
-            mListener,
-            mSensor,
-            SensorManager.SENSOR_DELAY_FASTEST,
-            handler
-        )
+    override fun getThreadName(): String? {
+        return "GravitySensorThread"
     }
 
-    fun cleanThread() {
-        if (mSensorManager != null) {
-            mSensorManager!!.unregisterListener(mListener)
-        }
-
-        if (mHandlerThread!!.isAlive) {
-            mHandlerThread!!.quitSafely()
-        }
+    override fun getSensorType(): Int {
+        return Sensor.TYPE_GRAVITY
     }
 
 }
