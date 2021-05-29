@@ -17,21 +17,13 @@ import com.example.myapplication.utils.PermissionUtils.Companion.isStoragePermis
 
 class MainActivity : AppCompatActivity() {
 
-    private var gravitySensorThread: GravitySensor? = null
-    private var gyroscopeThread: GyroscopeSensor? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkStoragePermissions(this)
 
         val checkCodeButton = findViewById<Button>(R.id.button)
-        val gravitySensorSwitch = findViewById<Switch>(R.id.gravity_switch)
-        val gyroscopeSwitch = findViewById<Switch>(R.id.gyro_switch)
-        val allSensorSwitch = findViewById<Switch>(R.id.all_sensor_switch)
         val passwordTextView = findViewById<TextView>(R.id.editTextNumberPassword)
-        gravitySensorThread = GravitySensor(this)
-        gyroscopeThread = GyroscopeSensor(this)
 
         checkCodeButton.setOnClickListener {
             Toast.makeText(
@@ -41,13 +33,21 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
 
+        val gravitySensorThread = GravitySensor(this)
+        val gravitySensorSwitch = findViewById<Switch>(R.id.gravity_switch)
+
         gravitySensorSwitch.setOnCheckedChangeListener { _, isChecked ->
             runSensorThread(gravitySensorSwitch, gravitySensorThread!!, isChecked)
         }
 
+        val gyroscopeThread = GyroscopeSensor(this)
+        val gyroscopeSwitch = findViewById<Switch>(R.id.gyro_switch)
+
         gyroscopeSwitch.setOnCheckedChangeListener { _, isChecked ->
             runSensorThread(gyroscopeSwitch, gyroscopeThread!!, isChecked)
         }
+
+        val allSensorSwitch = findViewById<Switch>(R.id.all_sensor_switch)
 
         allSensorSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
