@@ -6,13 +6,15 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
+import java.util.*
+import kotlin.random.Random.Default.nextInt
 
 class Logger {
 
     private var fileName = ""
     private val directory =
         Environment.getExternalStorageDirectory().absolutePath + "/$LOG_DIR_NAME"
-
+    private val rnds = (0..100).random()
     constructor(fileName: String) {
         this.fileName = fileName
     }
@@ -35,7 +37,8 @@ class Logger {
     }
 
     private fun writeToFile(text: String) {
-        val logFile = File("$directory/$fileName.txt")
+
+        val logFile = File("$directory/$fileName"+"$rnds.txt")
 
         if (!logFile.exists()) {
             logFile.createNewFile()

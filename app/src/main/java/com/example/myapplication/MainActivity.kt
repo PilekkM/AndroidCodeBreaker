@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.sensors.AbstractSensor
 import com.example.myapplication.sensors.GravitySensor
 import com.example.myapplication.sensors.GyroscopeSensor
-import com.example.myapplication.utils.CodeCheckUtility.Companion.NON_VALID_MSG
 import com.example.myapplication.utils.CodeCheckUtility.Companion.VALID_MSG
 import com.example.myapplication.utils.CodeCheckUtility.Companion.isPasswordCorrect
+import com.example.myapplication.utils.CodeGenUtility.Companion.genNewPassword
+import com.example.myapplication.utils.CodeGenUtility.Companion.CURRENT_PASS
+
 import com.example.myapplication.utils.PermissionUtils.Companion.checkStoragePermissions
 import com.example.myapplication.utils.PermissionUtils.Companion.isStoragePermissionGranted
 
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         checkStoragePermissions(this)
 
         val checkCodeButton = findViewById<Button>(R.id.button)
+        val generatePassButton = findViewById<Button>(R.id.button_pass)
         val gravitySensorSwitch = findViewById<Switch>(R.id.gravity_switch)
         val gyroscopeSwitch = findViewById<Switch>(R.id.gyro_switch)
         val allSensorSwitch = findViewById<Switch>(R.id.all_sensor_switch)
@@ -33,12 +36,24 @@ class MainActivity : AppCompatActivity() {
         gravitySensorThread = GravitySensor(this)
         gyroscopeThread = GyroscopeSensor(this)
 
+        generatePassButton.setOnClickListener {
+            genNewPassword()
+            Toast.makeText(
+                this,
+                CURRENT_PASS,
+                Toast.LENGTH_SHORT
+            ).show()
+            passwordTextView.setText("")
+            // TODO: Start SensorListeners (maybe for a fixed amount of time?)
+
+        }
         checkCodeButton.setOnClickListener {
             Toast.makeText(
                 this,
-                if (isPasswordCorrect(passwordTextView.text)) VALID_MSG else NON_VALID_MSG,
+                if (isPasswordCorrect(passwordTextView.text, CURRENT_PASS))  VALID_MSG else "Incorrect code should be $CURRENT_PASS",
                 Toast.LENGTH_SHORT
             ).show()
+            // TODO: If password is correct, save the logs with current Timestamp
         }
 
         gravitySensorSwitch.setOnCheckedChangeListener { _, isChecked ->
