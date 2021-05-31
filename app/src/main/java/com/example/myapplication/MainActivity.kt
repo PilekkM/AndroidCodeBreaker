@@ -6,12 +6,12 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.code.CodeChecker
+import com.example.myapplication.code.CodeChecker.Companion.NON_VALID_MSG
+import com.example.myapplication.code.CodeChecker.Companion.VALID_MSG
 import com.example.myapplication.sensors.AbstractSensor
 import com.example.myapplication.sensors.GravitySensor
 import com.example.myapplication.sensors.GyroscopeSensor
-import com.example.myapplication.utils.CodeCheckUtility.Companion.NON_VALID_MSG
-import com.example.myapplication.utils.CodeCheckUtility.Companion.VALID_MSG
-import com.example.myapplication.utils.CodeCheckUtility.Companion.isPasswordCorrect
 import com.example.myapplication.utils.PermissionUtils.Companion.checkStoragePermissions
 import com.example.myapplication.utils.PermissionUtils.Companion.isStoragePermissionGranted
 
@@ -23,12 +23,15 @@ class MainActivity : AppCompatActivity() {
         checkStoragePermissions(this)
 
         val checkCodeButton = findViewById<Button>(R.id.button)
-        val passwordTextView = findViewById<TextView>(R.id.editTextNumberPassword)
+        val refreshCodeButton = findViewById<Button>(R.id.refresh_code_button)
+        val passwordTextView = findViewById<TextView>(R.id.edit_text_number_password)
+        val showPasswordTextView = findViewById<TextView>(R.id.code_text_view)
+        val codeChecker = CodeChecker(showPasswordTextView)
 
         checkCodeButton.setOnClickListener {
             Toast.makeText(
                 this,
-                if (isPasswordCorrect(passwordTextView.text)) VALID_MSG else NON_VALID_MSG,
+                if (codeChecker.isCodeCorrect(passwordTextView.text)) VALID_MSG else NON_VALID_MSG,
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -37,14 +40,20 @@ class MainActivity : AppCompatActivity() {
         val gravitySensorSwitch = findViewById<Switch>(R.id.gravity_switch)
 
         gravitySensorSwitch.setOnCheckedChangeListener { _, isChecked ->
-            runSensorThread(gravitySensorSwitch, gravitySensorThread!!, isChecked)
+            runSensorThread(gravitySensorSwitch, gravitySensorThread, isChecked)
         }
 
         val gyroscopeThread = GyroscopeSensor(this)
         val gyroscopeSwitch = findViewById<Switch>(R.id.gyro_switch)
 
         gyroscopeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            runSensorThread(gyroscopeSwitch, gyroscopeThread!!, isChecked)
+            runSensorThread(gyroscopeSwitch, gyroscopeThread, isChecked)
+        }
+
+        refreshCodeButton.setOnClickListener {
+            codeChecker.refreshCode()
+            gravitySensorThread.updateFilename()
+            gyroscopeThread.updateFilename()
         }
 
         val allSensorSwitch = findViewById<Switch>(R.id.all_sensor_switch)

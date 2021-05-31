@@ -2,14 +2,13 @@ package com.example.myapplication.sensors
 
 import android.content.Context
 import android.hardware.Sensor
-import android.hardware.SensorEventListener
 import com.example.myapplication.sensors.listeners.GyroscopeSensorListener
-
+import com.example.myapplication.sensors.listeners.LoggingSensorEventListener
 
 
 class GyroscopeSensor(mContext: Context) : AbstractSensor(mContext) {
 
-    override fun getListener(): SensorEventListener {
+    override fun getListener(): LoggingSensorEventListener {
         return GyroscopeSensorListener()
     }
 

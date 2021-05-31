@@ -4,4 +4,5 @@
     <string name="generate_gravity_sensor_logs">Generate gravity sensor logs</string>
     <string name="generate_gyroscope_logs">Generate gyroscope logs</string>
     <string name="generate_logs_from_all_sensors">Generate logs from all sensors</string>
+    <string name="refresh_code">Refresh code</string>
 </resources>
