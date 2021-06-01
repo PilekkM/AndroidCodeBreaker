@@ -2,7 +2,7 @@ package com.example.myapplication.config
 
 class Configuration {
     companion object {
-        const val PASSWORD_LENGTH = 6
+        const val PASSWORD_LENGTH = 4
         const val SENSOR_ACCURACY_MILLIS = 1000L
         const val GRAVITY_SENSOR_LOG_FILENAME = "gravity_sensor_log"
         const val GYROSCOPE_SENSOR_LOG_FILENAME = "gyroscope_sensor_log"

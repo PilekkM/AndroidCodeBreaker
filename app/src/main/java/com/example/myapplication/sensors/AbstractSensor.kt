@@ -40,8 +40,8 @@ abstract class AbstractSensor(context: Context) : Runnable {
 
     abstract fun getSensorType(): Int
 
-    fun updateFilename() {
-        mListener?.updateFilename()
+    fun updateFilename(code: String) {
+        mListener?.updateFilename(code)
     }
 
     fun cleanThread() {

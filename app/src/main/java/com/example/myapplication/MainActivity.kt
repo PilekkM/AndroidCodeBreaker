@@ -52,8 +52,10 @@ class MainActivity : AppCompatActivity() {
 
         refreshCodeButton.setOnClickListener {
             codeChecker.refreshCode()
-            gravitySensorThread.updateFilename()
-            gyroscopeThread.updateFilename()
+            gravitySensorThread.updateFilename(CodeChecker.codeToCheck)
+            gyroscopeThread.updateFilename(CodeChecker.codeToCheck)
+            passwordTextView.setText("")
+
         }
 
         val allSensorSwitch = findViewById<Switch>(R.id.all_sensor_switch)

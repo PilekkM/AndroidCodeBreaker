@@ -8,9 +8,9 @@ class CodeChecker(codeTextView: TextView) {
     companion object {
         const val NON_VALID_MSG = "Incorrect code!"
         const val VALID_MSG = "Correct code!"
+        var codeToCheck = ""
     }
 
-    private var codeToCheck = ""
     private var codeTextView: TextView? = null
 
     init {

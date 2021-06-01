@@ -4,5 +4,5 @@ import android.hardware.SensorEventListener
 
 //TODO consider changing it to abstract class
 interface LoggingSensorEventListener : SensorEventListener {
-    fun updateFilename()
+    fun updateFilename(code: String)
 }

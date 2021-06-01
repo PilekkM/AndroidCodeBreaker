@@ -7,7 +7,7 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 
-class Logger(private var fileName: String, private var timestamp: String) {
+class Logger(private var code: String, private var fileName: String, private var timestamp: String) {
 
     private val directory =
         Environment.getExternalStorageDirectory().absolutePath + "/$LOG_DIR_NAME"
@@ -28,12 +28,13 @@ class Logger(private var fileName: String, private var timestamp: String) {
         }
     }
 
-    fun updateTimestamp(timestamp: String) {
+    fun updateTimestamp(timestamp: String, code: String) {
         this.timestamp = timestamp
+        this.code = code
     }
 
     private fun writeToFile(text: String) {
-        val logFile = File("$directory/${fileName}_$timestamp.txt")
+        val logFile = File("$directory/${code}_${fileName}_$timestamp.txt")
 
         if (!logFile.exists()) {
             logFile.createNewFile()
