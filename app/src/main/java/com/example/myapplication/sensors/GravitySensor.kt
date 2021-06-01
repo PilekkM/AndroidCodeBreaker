@@ -2,12 +2,12 @@ package com.example.myapplication.sensors
 
 import android.content.Context
 import android.hardware.Sensor
-import android.hardware.SensorEventListener
 import com.example.myapplication.sensors.listeners.GravitySensorListener
+import com.example.myapplication.sensors.listeners.LoggingSensorEventListener
 
 class GravitySensor(mContext: Context) : AbstractSensor(mContext) {
 
-    override fun getListener(): SensorEventListener? {
+    override fun getListener(): LoggingSensorEventListener? {
         return GravitySensorListener()
     }
 

@@ -2,10 +2,10 @@ package com.example.myapplication.sensors
 
 import android.content.Context
 import android.hardware.Sensor
-import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Handler
 import android.os.HandlerThread
+import com.example.myapplication.sensors.listeners.LoggingSensorEventListener
 
 abstract class AbstractSensor(context: Context) : Runnable {
 
@@ -13,7 +13,7 @@ abstract class AbstractSensor(context: Context) : Runnable {
     private var mContext: Context? = context
     private var mSensorManager: SensorManager? = null
     private var mSensor: Sensor? = null
-    private var mListener: SensorEventListener? = null
+    private var mListener: LoggingSensorEventListener? = null
     private var mHandlerThread: HandlerThread? = null
 
     override fun run() {
@@ -34,12 +34,15 @@ abstract class AbstractSensor(context: Context) : Runnable {
         )
     }
 
-    abstract fun getListener(): SensorEventListener?
+    abstract fun getListener(): LoggingSensorEventListener?
 
     abstract fun getThreadName(): String?
 
     abstract fun getSensorType(): Int
 
+    fun updateFilename() {
+        mListener?.updateFilename()
+    }
 
     fun cleanThread() {
         if (mSensorManager != null) {
