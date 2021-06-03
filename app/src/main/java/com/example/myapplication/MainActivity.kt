@@ -26,7 +26,8 @@ class MainActivity : AppCompatActivity() {
         val refreshCodeButton = findViewById<Button>(R.id.refresh_code_button)
         val passwordTextView = findViewById<TextView>(R.id.edit_text_number_password)
         val showPasswordTextView = findViewById<TextView>(R.id.code_text_view)
-        val codeChecker = CodeChecker(showPasswordTextView)
+        val codeChecker = CodeChecker()
+        updateTextViewWithCode(showPasswordTextView)
 
         checkCodeButton.setOnClickListener {
             Toast.makeText(
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             codeChecker.refreshCode()
             gravitySensorThread.updateFilename()
             gyroscopeThread.updateFilename()
+            updateTextViewWithCode(showPasswordTextView)
         }
 
         val allSensorSwitch = findViewById<Switch>(R.id.all_sensor_switch)
@@ -86,5 +88,9 @@ class MainActivity : AppCompatActivity() {
         } else {
             sensorThread.cleanThread()
         }
+    }
+
+    private fun updateTextViewWithCode(textView: TextView) {
+        textView.text = CodeChecker.codeToCheck
     }
 }

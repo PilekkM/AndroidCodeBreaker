@@ -1,20 +1,16 @@
 package com.example.myapplication.code
 
-import android.widget.TextView
 import com.example.myapplication.config.Configuration.Companion.PASSWORD_LENGTH
 
-class CodeChecker(codeTextView: TextView) {
+class CodeChecker {
 
     companion object {
         const val NON_VALID_MSG = "Incorrect code!"
         const val VALID_MSG = "Correct code!"
+        var codeToCheck = ""
     }
 
-    private var codeToCheck = ""
-    private var codeTextView: TextView? = null
-
     init {
-        this.codeTextView = codeTextView
         refreshCode()
     }
 
@@ -28,10 +24,5 @@ class CodeChecker(codeTextView: TextView) {
             pass += (0..9).random()
         }
         codeToCheck = pass
-        updateCodeTextView()
-    }
-
-    private fun updateCodeTextView() {
-        codeTextView!!.text = codeToCheck
     }
 }

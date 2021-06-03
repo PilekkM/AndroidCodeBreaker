@@ -1,6 +1,7 @@
 package com.example.myapplication.log
 
 import android.os.Environment
+import com.example.myapplication.code.CodeChecker
 import com.example.myapplication.config.Configuration.Companion.LOG_DIR_NAME
 import java.io.BufferedWriter
 import java.io.File
@@ -33,7 +34,7 @@ class Logger(private var fileName: String, private var timestamp: String) {
     }
 
     private fun writeToFile(text: String) {
-        val logFile = File("$directory/${fileName}_$timestamp.txt")
+        val logFile = File("$directory/${fileName}_${timestamp}_${CodeChecker.codeToCheck}.txt")
 
         if (!logFile.exists()) {
             logFile.createNewFile()

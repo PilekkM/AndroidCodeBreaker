@@ -13,8 +13,12 @@ abstract class AbstractSensor(context: Context) : Runnable {
     private var mContext: Context? = context
     private var mSensorManager: SensorManager? = null
     private var mSensor: Sensor? = null
-    private var mListener: LoggingSensorEventListener? = null
+    private var mListener: LoggingSensorEventListener? = getListener()
     private var mHandlerThread: HandlerThread? = null
+
+    init {
+        mListener = getListener()
+    }
 
     override fun run() {
         mSensorManager = mContext?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -23,8 +27,6 @@ abstract class AbstractSensor(context: Context) : Runnable {
         mHandlerThread!!.start()
 
         val handler = Handler(mHandlerThread!!.looper)
-
-        mListener = getListener()
 
         mSensorManager!!.registerListener(
             mListener,
